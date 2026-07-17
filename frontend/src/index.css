@@ -1,0 +1,449 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --primary-blue: #0A36E8; 
+  --bg-gray: #EFEFEF;
+  --white: #ffffff;
+  --text-dark: #000000;
+  --text-gray: #6b7280;
+  --input-bg: #E3E3E3;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-gray);
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Layout */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 280px;
+  background-color: var(--primary-blue);
+  color: var(--white);
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  padding: 0 2rem;
+  margin-bottom: 4rem;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 1rem 2rem;
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  border-radius: 0 50px 50px 0;
+  margin-right: 2rem;
+}
+
+.nav-item:hover, .nav-item.active {
+  background-color: var(--white);
+  color: var(--primary-blue);
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem 4rem;
+  background-color: var(--bg-gray);
+  overflow-y: auto;
+}
+
+/* Topbar */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 2rem;
+}
+
+.topbar h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.profile-pic {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.dashboard-card {
+  background-color: var(--white);
+  color: var(--text-dark);
+  border-radius: 20px;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-card.primary {
+  background-color: var(--primary-blue);
+  color: var(--white);
+}
+
+.card-icon {
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-card h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-card p {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Auth Screens */
+.auth-page {
+  min-height: 100vh;
+  background-color: var(--primary-blue);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.auth-header {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  right: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--white);
+}
+
+.auth-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.auth-nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.auth-nav a {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+}
+
+.auth-nav .btn-white {
+  background-color: var(--white);
+  color: var(--primary-blue);
+  border-radius: 8px;
+}
+
+.auth-card {
+  background-color: var(--white);
+  padding: 3rem;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+.auth-card h2 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: var(--text-dark);
+  font-weight: 700;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.form-control {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background-color: var(--input-bg);
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  font-family: inherit;
+}
+
+.form-control::placeholder {
+  color: #9CA3AF;
+}
+
+.form-control:focus {
+  outline: 2px solid var(--primary-blue);
+}
+
+.eye-icon {
+  position: absolute;
+  right: 1.5rem;
+  top: 1rem;
+  color: #9CA3AF;
+  cursor: pointer;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--primary-blue);
+  color: var(--white);
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #082ab8;
+}
+
+.auth-links {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.auth-links a {
+  color: var(--primary-blue);
+  text-decoration: none;
+}
+
+/* Symptoms Input */
+.page-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 3rem;
+}
+
+.symptoms-container {
+  max-width: 600px;
+}
+
+.symptom-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.symptom-select {
+  flex: 1;
+  display: flex;
+  background-color: #D1D5DB;
+  border-radius: 25px;
+  padding: 0.8rem 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.symptom-name {
+  font-weight: 700;
+  border: none;
+  background: transparent;
+  outline: none;
+  flex: 1;
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  appearance: none;
+}
+
+.severity-label {
+  color: var(--primary-blue);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.btn-icon {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: var(--primary-blue);
+  color: var(--white);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.btn-icon.add {
+  background-color: var(--primary-blue);
+}
+
+.diagnose-btn-container {
+  margin-top: 3rem;
+  max-width: 400px;
+}
+
+/* Result / General Cards */
+.content-card {
+  background-color: var(--white);
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.content-card h3 {
+  color: var(--primary-blue);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+/* Landing Page */
+.landing-page {
+  min-height: 100vh;
+  background-color: var(--primary-blue);
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-content {
+  display: flex;
+  flex: 1;
+  padding: 0 4rem;
+  align-items: center;
+}
+
+.landing-left {
+  flex: 1;
+  color: var(--white);
+  padding-right: 2rem;
+}
+
+.landing-left h4 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.landing-left h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.landing-left p {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 3rem;
+  line-height: 1.5;
+  max-width: 500px;
+}
+
+.landing-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.btn-white {
+  background-color: var(--white);
+  color: var(--primary-blue);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.landing-features {
+  display: flex;
+  gap: 2rem;
+  font-weight: 600;
+}
+
+.landing-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hero-illustration {
+  background-color: #F8FAFC;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  width: 600px;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: hidden;
+  position: relative;
+}
