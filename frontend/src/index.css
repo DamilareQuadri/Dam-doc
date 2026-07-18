@@ -441,48 +441,302 @@ body {
   background-color: var(--primary-blue);
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+}
+
+.landing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
+  color: var(--white);
+}
+
+.landing-header .auth-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: 800;
+}
+
+.landing-header .auth-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.landing-header .auth-nav a {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+}
+
+.btn-register {
+  background-color: var(--white);
+  color: var(--primary-blue) !important;
+  border-radius: 8px;
+  padding: 0.6rem 1.4rem !important;
+  font-weight: 700 !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-register:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .landing-content {
   display: flex;
   flex: 1;
-  padding: 0 4rem;
+  padding: clamp(2rem, 4vw, 4rem) clamp(1.5rem, 5vw, 4rem);
   align-items: center;
+  gap: 2rem;
 }
 
 .landing-left {
   flex: 1;
   color: var(--white);
-  padding-right: 2rem;
+  padding-right: clamp(0rem, 3vw, 2rem);
 }
 
 .landing-left h4 {
-  font-size: 1.5rem;
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
+  opacity: 0.95;
 }
 
 .landing-left h1 {
-  font-size: 4rem;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
   font-weight: 800;
-  line-height: 1.2;
-  margin-bottom: 1.5rem;
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+  max-width: 550px;
 }
 
 .landing-left p {
-  font-size: 1.2rem;
-  font-weight: 500;
-  margin-bottom: 3rem;
-  line-height: 1.5;
-  max-width: 500px;
+  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+  font-weight: 400;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  max-width: 480px;
+  opacity: 0.92;
 }
 
 .landing-buttons {
   display: flex;
   gap: 1rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
 }
 
+/* "Get Started" button — dark filled */
+.btn-get-started {
+  background-color: #0a1f6b;
+  color: var(--white);
+  padding: 0.9rem 1.8rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.btn-get-started:hover {
+  background-color: #071550;
+  transform: translateY(-2px);
+}
+
+/* "Learn more" button — outlined */
+.btn-learn-more {
+  background-color: transparent;
+  color: var(--white);
+  padding: 0.9rem 1.8rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 2px solid var(--white);
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-learn-more:hover {
+  background-color: var(--white);
+  color: var(--primary-blue);
+  transform: translateY(-2px);
+}
+
+.landing-features {
+  display: flex;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 600;
+  color: var(--white);
+  flex-wrap: wrap;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: clamp(0.8rem, 1.2vw, 0.95rem);
+}
+
+.feature-icon {
+  width: 16px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.landing-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.hero-illustration {
+  position: relative;
+  width: clamp(300px, 35vw, 520px);
+  height: clamp(300px, 35vw, 520px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* White organic blob behind the doctor */
+.hero-illustration::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: 42% 58% 62% 38% / 45% 55% 45% 55%;
+  z-index: 0;
+}
+
+.hero-doctor-img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+/* ===== Responsive Breakpoints ===== */
+
+/* Tablets / small laptops */
+@media (max-width: 1024px) {
+  .landing-content {
+    padding: 2rem clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .landing-left h1 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+  }
+
+  .hero-illustration {
+    width: clamp(250px, 30vw, 400px);
+    height: clamp(250px, 30vw, 400px);
+  }
+}
+
+/* Tablets portrait and large phones */
+@media (max-width: 768px) {
+  .landing-content {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+    gap: 2rem;
+  }
+
+  .landing-left {
+    padding-right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .landing-left h1 {
+    max-width: 100%;
+  }
+
+  .landing-left p {
+    max-width: 100%;
+  }
+
+  .landing-buttons {
+    justify-content: center;
+  }
+
+  .landing-features {
+    justify-content: center;
+  }
+
+  .landing-right {
+    justify-content: center;
+  }
+
+  .hero-illustration {
+    width: clamp(260px, 55vw, 380px);
+    height: clamp(260px, 55vw, 380px);
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .landing-header {
+    padding: 1rem;
+  }
+
+  .landing-content {
+    padding: 1rem;
+  }
+
+  .landing-left h1 {
+    font-size: 1.75rem;
+  }
+
+  .landing-left p {
+    font-size: 0.9rem;
+  }
+
+  .landing-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .btn-get-started,
+  .btn-learn-more {
+    width: 100%;
+    justify-content: center;
+    padding: 0.85rem 1.5rem;
+  }
+
+  .landing-features {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-illustration {
+    width: 260px;
+    height: 260px;
+  }
+}
+
+/* btn-white kept for auth nav Register button on other pages */
 .btn-white {
   background-color: var(--white);
   color: var(--primary-blue);
@@ -494,38 +748,4 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-.landing-buttons .btn-white {
-  border: 2px solid transparent;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.landing-buttons .btn-white:hover {
-  background-color: var(--primary-blue);
-  color: var(--white);
-}
-
-.landing-features {
-  display: flex;
-  gap: 2rem;
-  font-weight: 600;
-}
-
-.landing-right {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.hero-illustration {
-  background-color: #F8FAFC;
-  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-  width: 600px;
-  height: 600px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  overflow: hidden;
-  position: relative;
 }
