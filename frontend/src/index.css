@@ -220,6 +220,18 @@ body {
   position: relative;
 }
 
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.input-wrap {
+  position: relative;
+}
+
 .form-control {
   width: 100%;
   padding: 1rem 1.5rem;
@@ -315,6 +327,59 @@ body {
   font-size: 1.1rem;
   color: var(--text-dark);
   appearance: none;
+}
+
+.symptom-name::placeholder {
+  color: #6B7280;
+  font-weight: 600;
+}
+
+.symptom-combobox {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+/* Positioned against .symptom-select (the pill), so it drops below the row. */
+.symptom-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  right: 0;
+  background-color: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem;
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 20;
+}
+
+.symptom-option {
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  color: var(--text-dark);
+  cursor: pointer;
+}
+
+.symptom-option.active {
+  background-color: var(--input-bg, #F3F4F6);
+}
+
+.symptom-option.see-doctor {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #DC2626;
+  font-weight: 600;
+}
+
+.symptom-option.see-doctor.active {
+  background-color: #FEF2F2;
 }
 
 .severity-label {

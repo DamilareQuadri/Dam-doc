@@ -1,4 +1,5 @@
-const db = require('../mockDB');
+const Case = require('../models/Case');
+const DiagnosisHistory = require('../models/DiagnosisHistory');
 
 // 1. RETRIEVE phase helper: calculate similarity index
 const severityWeights = {
@@ -33,17 +34,16 @@ const calculateSimilarity = (userSymptoms, caseSymptoms) => {
 const diagnose = async (req, res) => {
     try {
         const { symptoms } = req.body;
-        const userId = req.user?.id || 'anonymous';
-        
-        const cases = db.cases;
-        
+
+        const cases = await Case.find();
+
         if (!cases || cases.length === 0) {
             return res.status(500).json({ message: 'Case base is empty.' });
         }
-        
+
         let bestMatch = null;
         let highestScore = 0;
-        
+
         // RETRIEVE: Find the most similar case
         cases.forEach(c => {
             const score = calculateSimilarity(symptoms, c.symptoms);
@@ -52,17 +52,15 @@ const diagnose = async (req, res) => {
                 bestMatch = c;
             }
         });
-        
+
         const THRESHOLD = 40; // Similarity threshold to consider a match
-        
-        let historyEntry = {
-            id: Math.random().toString(36).substr(2, 9),
-            user: userId,
+
+        const historyEntry = {
+            user: req.user.id,
             symptoms,
-            similarityScore: highestScore.toFixed(2),
-            createdAt: new Date().toISOString()
+            similarityScore: Math.round(highestScore * 100) / 100
         };
-        
+
         // REUSE: Use the best match if score is above threshold
         if (highestScore >= THRESHOLD && bestMatch) {
             historyEntry.diagnosis = bestMatch.diagnosis;
@@ -73,11 +71,12 @@ const diagnose = async (req, res) => {
             historyEntry.treatmentRecommendation = "Please consult a doctor for accurate diagnosis.";
             historyEntry.referredToDoctor = true;
         }
-        
-        db.history.push(historyEntry);
-        
-        res.json(historyEntry);
-        
+
+        // RETAIN (history): persist this diagnosis for the user
+        const saved = await DiagnosisHistory.create(historyEntry);
+
+        res.json(saved);
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
@@ -92,26 +91,27 @@ const retainCase = async (req, res) => {
         if(!symptoms || !diagnosis) {
             return res.status(400).json({ message: 'Missing required fields' });
         }
-        
-        const newCase = {
+
+        const newCase = await Case.create({
             symptoms,
             diagnosis,
             treatmentRecommendation: treatmentRecommendation || "General Care",
             caseOutcome: "Pending confirmation"
-        };
-        
-        db.cases.push(newCase);
+        });
+
         res.json({ message: 'Case retained successfully', newCase });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Server error' });
     }
 };
 
 const getHistory = async (req, res) => {
     try {
-        const history = db.history.filter(h => h.user === req.user.id).sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+        const history = await DiagnosisHistory.find({ user: req.user.id }).sort({ createdAt: -1 });
         res.json(history);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Server error' });
     }
 }
