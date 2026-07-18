@@ -7,36 +7,36 @@ const Dashboard = () => {
   return (
     <Layout title="">
       <div className="dashboard-grid">
-        <Link to="/symptoms" className="dashboard-card primary">
-          <div className="card-icon" style={{ backgroundColor: 'transparent', color: 'white' }}>
+        <Link to="/symptoms" className="dashboard-card">
+          <div className="card-icon">
             <ClipboardPlus size={50} />
           </div>
           <h3>Symptoms Input</h3>
-          <p style={{color: 'white', marginTop: '10px'}}>List your symptoms here to get diagnosed</p>
+          <p>List your symptoms here to get diagnosed</p>
         </Link>
-        
+
         <Link to="/history" className="dashboard-card">
-          <div className="card-icon" style={{ backgroundColor: 'black', color: 'white' }}>
-            <History size={40} style={{margin: '10px'}} />
+          <div className="card-icon">
+            <History size={40} />
           </div>
           <h3>Diagnosis History</h3>
-          <p style={{marginTop: '10px', color: '#666'}}>Get to see your past diagnosis</p>
+          <p>Get to see your past diagnosis</p>
         </Link>
-        
+
         <Link to="/tips" className="dashboard-card">
-          <div className="card-icon" style={{ backgroundColor: 'black', color: 'white' }}>
-            <HeartPulse size={40} style={{margin: '10px'}} />
+          <div className="card-icon">
+            <HeartPulse size={40} />
           </div>
           <h3>Health Tips</h3>
-          <p style={{marginTop: '10px', color: '#666'}}>Get useful tips on tropical diseases and health</p>
+          <p>Get useful tips on tropical diseases and health</p>
         </Link>
-        
+
         <Link to="/see-doctor" className="dashboard-card">
-          <div className="card-icon" style={{ backgroundColor: 'black', color: 'white' }}>
-            <UserIcon size={40} style={{margin: '10px'}} />
+          <div className="card-icon">
+            <UserIcon size={40} />
           </div>
           <h3>See Doctor</h3>
-          <p style={{marginTop: '10px', color: '#666'}}>Meet with a healthcare professional (Video Conference)</p>
+          <p>Meet with a healthcare professional (Video Conference)</p>
         </Link>
       </div>
     </Layout>
