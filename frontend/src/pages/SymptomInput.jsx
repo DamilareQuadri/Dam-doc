@@ -1,18 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { diagnosisApi, symptomApi } from '../api';
 import Layout from '../components/Layout';
+import SymptomSelect from '../components/SymptomSelect';
 import { Plus, Minus } from 'lucide-react';
 
-const commonSymptoms = [
-  "Fever", "Headache", "Cold", "Cough", "Chills", "Nausea", "Sweating", 
-  "Abdominal Pain", "Weakness", "Constipation", "Joint Pain", "Rash", 
+// Fallback used only if the catalog can't be fetched (e.g. offline dev).
+const fallbackSymptoms = [
+  "Fever", "Headache", "Cold", "Cough", "Chills", "Nausea", "Sweating",
+  "Abdominal Pain", "Weakness", "Constipation", "Joint Pain", "Rash",
   "Eye Pain", "Diarrhea", "Vomiting", "Leg Cramps", "Dehydration"
 ];
 
 const SymptomInput = () => {
   const [symptomsList, setSymptomsList] = useState([{ name: '', severity: 'Medium' }]);
+  const [symptomOptions, setSymptomOptions] = useState([]);
   const navigate = useNavigate();
+
+  // Load the symptom catalog from the backend on mount.
+  useEffect(() => {
+    let active = true;
+    symptomApi
+      .getAll()
+      .then((data) => {
+        if (active) setSymptomOptions(data.map((s) => s.name));
+      })
+      .catch(() => {
+        if (active) setSymptomOptions(fallbackSymptoms);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // A symptom outside our known catalog may indicate something serious, so we
+  // refer the user straight to a doctor instead of diagnosing locally.
+  const handleUnrecognized = (name) => {
+    navigate('/see-doctor', { state: { referredFor: name } });
+  };
 
   const handleAddSymptom = () => {
     setSymptomsList([...symptomsList, { name: '', severity: 'Medium' }]);
@@ -35,17 +60,14 @@ const SymptomInput = () => {
     if(validSymptoms.length === 0) return alert('Please enter at least one symptom.');
 
     try {
-      const token = localStorage.getItem('token');
-      const res = await axios.post('http://localhost:5000/api/diagnose', { symptoms: validSymptoms }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      
+      const result = await diagnosisApi.diagnose(validSymptoms);
+
       // Store in local storage to track completion
       localStorage.setItem('symptomsCompleted', 'true');
-      
-      navigate('/result', { state: { result: res.data } });
+
+      navigate('/result', { state: { result } });
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to diagnose');
+      alert(err.message || 'Failed to diagnose');
     }
   };
 
@@ -57,17 +79,13 @@ const SymptomInput = () => {
         {symptomsList.map((symptom, index) => (
           <div className="symptom-row" key={index}>
             <div className="symptom-select">
-              <select 
-                className="symptom-name"
+              <SymptomSelect
                 value={symptom.name}
-                onChange={(e) => handleUpdateSymptom(index, 'name', e.target.value)}
-              >
-                <option value="" disabled></option>
-                {commonSymptoms.map(sym => (
-                  <option key={sym} value={sym}>{sym}</option>
-                ))}
-              </select>
-              
+                options={symptomOptions}
+                onChange={(name) => handleUpdateSymptom(index, 'name', name)}
+                onUnrecognized={handleUnrecognized}
+              />
+
               <select
                 style={{ border: 'none', background: 'transparent', color: '#0A36E8', fontWeight: '700', outline: 'none', fontSize: '0.9rem', cursor: 'pointer' }}
                 value={symptom.severity}

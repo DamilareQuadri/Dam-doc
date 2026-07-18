@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Layout from '../components/Layout';
-import { Video } from 'lucide-react';
+import { Video, AlertTriangle } from 'lucide-react';
 
 const SeeDoctor = () => {
   const [showPrompt, setShowPrompt] = useState(true);
   const [inConsultation, setInConsultation] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Set when the user was referred here for a symptom outside our known set.
+  const referredFor = location.state?.referredFor;
 
   useEffect(() => {
-    // We check if the user has completed the symptom input in this session
+    // A referral for an unrecognized symptom skips the gate and goes straight
+    // to a consultation.
+    if (referredFor) {
+      setShowPrompt(false);
+      setInConsultation(true);
+      return;
+    }
+
+    // Otherwise, check if the user has completed the symptom input this session.
     const hasCompletedSymptoms = localStorage.getItem('symptomsCompleted');
     if (!hasCompletedSymptoms) {
       setShowPrompt(true);
@@ -17,7 +29,7 @@ const SeeDoctor = () => {
       setShowPrompt(false);
       setInConsultation(true);
     }
-  }, []);
+  }, [referredFor]);
 
   const handlePromptResponse = (didSymptoms) => {
     if (didSymptoms) {
@@ -42,6 +54,15 @@ const SeeDoctor = () => {
           </div>
         )}
         
+        {inConsultation && referredFor && (
+          <div className="content-card" style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', borderLeft: '4px solid #DC2626' }}>
+            <AlertTriangle size={22} color="#DC2626" style={{ flexShrink: 0, marginTop: '2px' }} />
+            <p style={{ margin: 0, color: '#444' }}>
+              <strong>“{referredFor}”</strong> isn’t in our recognized symptom list. As a precaution we’ve connected you with a doctor for a proper assessment.
+            </p>
+          </div>
+        )}
+
         {inConsultation && (
           <div className="content-card" style={{ textAlign: 'center' }}>
             <div style={{

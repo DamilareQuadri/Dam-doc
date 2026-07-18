@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
+const { connectDB } = require('./config/db');
+const seedDatabase = require('./config/seed');
 const apiRoutes = require('./routes/api');
 
 const app = express();
@@ -18,6 +20,17 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: 'Internal Server Error' });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT} with Mock Database`);
-});
+const start = async () => {
+    try {
+        await connectDB();
+        await seedDatabase();
+        app.listen(PORT, () => {
+            console.log(`🚀 Server running on port ${PORT}`);
+        });
+    } catch (err) {
+        console.error('❌ Failed to start server:', err.message);
+        process.exit(1);
+    }
+};
+
+start();

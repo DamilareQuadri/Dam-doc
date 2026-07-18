@@ -1,67 +1,20 @@
-const mongoose = require('mongoose');
-const Case = require('./models/Case');
+// Standalone seed script: wipes and repopulates the case base and symptom
+// catalog. Run against a real database with:  MONGO_URI=... npm run seed
 require('dotenv').config();
 
-const seedCases = [
-    {
-        symptoms: [
-            { name: "Fever", severity: "High" },
-            { name: "Chills", severity: "High" },
-            { name: "Headache", severity: "Medium" },
-            { name: "Nausea", severity: "Low" },
-            { name: "Sweating", severity: "Medium" }
-        ],
-        diagnosis: "Malaria",
-        treatmentRecommendation: "Artemisinin-based combination therapy (ACT). Rest and stay hydrated.",
-        caseOutcome: "Recovered in 5 days"
-    },
-    {
-        symptoms: [
-            { name: "Fever", severity: "Very High" },
-            { name: "Abdominal Pain", severity: "Medium" },
-            { name: "Weakness", severity: "High" },
-            { name: "Headache", severity: "Medium" },
-            { name: "Constipation", severity: "Low" }
-        ],
-        diagnosis: "Typhoid Fever",
-        treatmentRecommendation: "Antibiotics (e.g., Ciprofloxacin). Ensure safe drinking water and hygiene.",
-        caseOutcome: "Recovered in 10 days"
-    },
-    {
-        symptoms: [
-            { name: "Fever", severity: "High" },
-            { name: "Joint Pain", severity: "Very High" },
-            { name: "Rash", severity: "Medium" },
-            { name: "Headache", severity: "High" },
-            { name: "Eye Pain", severity: "Medium" }
-        ],
-        diagnosis: "Dengue Fever",
-        treatmentRecommendation: "Pain relievers (Acetaminophen), lots of fluids, and rest. Avoid Aspirin.",
-        caseOutcome: "Recovered in 7 days"
-    },
-    {
-        symptoms: [
-            { name: "Diarrhea", severity: "Very High" },
-            { name: "Vomiting", severity: "High" },
-            { name: "Leg Cramps", severity: "Medium" },
-            { name: "Dehydration", severity: "Very High" }
-        ],
-        diagnosis: "Cholera",
-        treatmentRecommendation: "Immediate Oral Rehydration Salts (ORS) or Intravenous fluids. Antibiotics in severe cases.",
-        caseOutcome: "Recovered rapidly with hydration"
-    }
-];
+const { connectDB, disconnectDB } = require('./config/db');
+const seedDatabase = require('./config/seed');
 
-mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/damdoc')
-.then(async () => {
-    console.log('Connected to MongoDB');
-    await Case.deleteMany({});
-    console.log('Cleared existing cases');
-    await Case.insertMany(seedCases);
-    console.log('Case base seeded successfully');
-    process.exit(0);
-})
-.catch(err => {
-    console.error(err);
-    process.exit(1);
-});
+(async () => {
+    try {
+        await connectDB();
+        await seedDatabase({ force: true });
+        console.log('✅ Database reseeded');
+    } catch (err) {
+        console.error('❌ Seed failed:', err.message);
+        process.exitCode = 1;
+    } finally {
+        await disconnectDB();
+        process.exit();
+    }
+})();

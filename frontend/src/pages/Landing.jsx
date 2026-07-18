@@ -22,7 +22,7 @@ const Landing = () => {
           <p>Just tell us how you are feeling and we'd help diagnose you and suggest possible problem.</p>
           
           <div className="landing-buttons">
-            <Link to="/register" className="btn-primary" style={{width: 'auto', display: 'inline-block'}}>
+            <Link to="/register" className="btn-white">
               Get Started →
             </Link>
             <Link to="/about" className="btn-white">
