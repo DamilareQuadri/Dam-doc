@@ -130,15 +130,17 @@ body {
 .dashboard-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-}
-
-.dashboard-card.primary {
   background-color: var(--primary-blue);
   color: var(--white);
 }
 
 .card-icon {
   margin-bottom: 1.5rem;
+  color: var(--primary-blue);
+}
+
+.dashboard-card:hover .card-icon {
+  color: var(--white);
 }
 
 .dashboard-card h3 {
@@ -150,6 +152,11 @@ body {
 .dashboard-card p {
   font-size: 0.95rem;
   font-weight: 500;
+  color: #666;
+}
+
+.dashboard-card:hover p {
+  color: var(--white);
 }
 
 /* Auth Screens */
@@ -487,6 +494,16 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.landing-buttons .btn-white {
+  border: 2px solid transparent;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.landing-buttons .btn-white:hover {
+  background-color: var(--primary-blue);
+  color: var(--white);
 }
 
 .landing-features {
