@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { authApi } from '../api';
 import { Activity, EyeOff, Eye } from 'lucide-react';
 
 const Register = () => {
@@ -15,7 +15,7 @@ const Register = () => {
     }
     
     try {
-      await axios.post('http://localhost:5000/api/auth/register', {
+      await authApi.register({
         fullName: formData.fullName,
         email: formData.email,
         password: formData.password
@@ -23,7 +23,7 @@ const Register = () => {
       alert('Registration successful. Please login.');
       navigate('/login');
     } catch (err) {
-      alert(err.response?.data?.message || 'Registration failed');
+      alert(err.message || 'Registration failed');
     }
   };
 
@@ -39,9 +39,11 @@ const Register = () => {
         <h2>Get Started</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <input 
-              type="text" 
-              className="form-control" 
+            <label htmlFor="fullName" className="form-label">Full Name</label>
+            <input
+              id="fullName"
+              type="text"
+              className="form-control"
               placeholder="Full Name"
               value={formData.fullName}
               onChange={(e) => setFormData({...formData, fullName: e.target.value})}
@@ -49,9 +51,11 @@ const Register = () => {
             />
           </div>
           <div className="form-group">
-            <input 
-              type="email" 
-              className="form-control" 
+            <label htmlFor="email" className="form-label">Email Address</label>
+            <input
+              id="email"
+              type="email"
+              className="form-control"
               placeholder="Email Address"
               value={formData.email}
               onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -59,32 +63,40 @@ const Register = () => {
             />
           </div>
           <div className="form-group">
-            <input 
-              type={showPassword ? "text" : "password"} 
-              className="form-control" 
-              placeholder="New Password"
-              value={formData.password}
-              onChange={(e) => setFormData({...formData, password: e.target.value})}
-              required
-            />
-            {showPassword ? 
-              <Eye className="eye-icon" onClick={() => setShowPassword(false)} /> : 
-              <EyeOff className="eye-icon" onClick={() => setShowPassword(true)} />
-            }
+            <label htmlFor="password" className="form-label">New Password</label>
+            <div className="input-wrap">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                className="form-control"
+                placeholder="New Password"
+                value={formData.password}
+                onChange={(e) => setFormData({...formData, password: e.target.value})}
+                required
+              />
+              {showPassword ?
+                <Eye className="eye-icon" onClick={() => setShowPassword(false)} /> :
+                <EyeOff className="eye-icon" onClick={() => setShowPassword(true)} />
+              }
+            </div>
           </div>
           <div className="form-group">
-            <input 
-              type={showPassword ? "text" : "password"} 
-              className="form-control" 
-              placeholder="Confirm Password"
-              value={formData.confirmPassword}
-              onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-              required
-            />
-            {showPassword ? 
-              <Eye className="eye-icon" onClick={() => setShowPassword(false)} /> : 
-              <EyeOff className="eye-icon" onClick={() => setShowPassword(true)} />
-            }
+            <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
+            <div className="input-wrap">
+              <input
+                id="confirmPassword"
+                type={showPassword ? "text" : "password"}
+                className="form-control"
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                required
+              />
+              {showPassword ?
+                <Eye className="eye-icon" onClick={() => setShowPassword(false)} /> :
+                <EyeOff className="eye-icon" onClick={() => setShowPassword(true)} />
+              }
+            </div>
           </div>
           <button type="submit" className="btn-primary" style={{marginTop: '1rem'}}>
             Register

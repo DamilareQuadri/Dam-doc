@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { diagnosisApi } from '../api';
 import Layout from '../components/Layout';
 
 const DiagnosisHistory = () => {
@@ -9,11 +9,8 @@ const DiagnosisHistory = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:5000/api/history', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setHistory(res.data);
+        const data = await diagnosisApi.getHistory();
+        setHistory(data);
       } catch (err) {
         console.error("Failed to fetch history", err);
       } finally {
